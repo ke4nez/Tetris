@@ -1,0 +1,193 @@
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1d1f21;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+header {
+    text-align: center;
+    margin: 2rem 0 1rem;
+}
+
+header svg {
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    -webkit-transition: -webkit-transform 0.3s ease-in-out;
+    -moz-transition: -moz-transform 0.3s ease-in-out;
+}
+
+header svg:hover {
+    transform: scale(1.05);
+    -webkit-transform: scale(1.05);
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.menuElement:not(h1) {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.menuButton {
+    width: 33vw;
+    max-width: 300px;
+    min-width: 150px;
+    padding: 0.75rem 1rem;
+    background-color: #3a693b;
+    border: 2px solid #000;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+}
+
+.menuButton:hover,
+.menuButton:focus {
+    background-color: #5945a0;
+    transform: scale(1.05) rotate(1deg);
+    outline: none;
+}
+
+.menuButton:active {
+    transform: scale(0.95);
+}
+
+.gameContainer {
+    text-align: center;
+    background-color: #282c34;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    max-width: 800px;
+    perspective: 800px;
+}
+
+canvas {
+    border: 2px solid #444;
+    background-color: #222;
+    margin-bottom: 1.25rem;
+    display: block;
+    transform: rotateX(2deg);
+}
+
+.controls,
+#optionsMenu,
+#recordsMenu {
+    margin-top: 1.5rem;
+    animation: fadeIn 0.4s ease;
+}
+
+#optionsMenu input[type="range"] {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+#optionsMenu label,
+#recordsMenu label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+#recordsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    background-color: #333;
+}
+
+#recordsTable th,
+#recordsTable td {
+    border: 1px solid #555;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+#recordsTable th {
+    background-color: #444;
+    text-transform: uppercase;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem 0;
+    background-color: #1d1f21;
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .menuButton {
+        width: 80vw;
+        font-size: 0.95rem;
+    }
+
+    .gameContainer {
+        padding: 1rem;
+    }
+
+    canvas {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 0.95rem;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    #recordsTable th,
+    #recordsTable td {
+        font-size: 0.75rem;
+    }
+}

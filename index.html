@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tetris</title>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="icon" type="image/svg+xml" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="black"/><rect x="10" y="10" width="20" height="20" fill="%23FF0"/><rect x="30" y="10" width="20" height="20" fill="%23F00"/><rect x="50" y="10" width="20" height="20" fill="%230F0"/><rect x="70" y="10" width="20" height="20" fill="%230FF"/><rect x="10" y="30" width="20" height="20" fill="%2300F"/><rect x="30" y="30" width="20" height="20" fill="%23F0F"/><rect x="50" y="30" width="20" height="20" fill="%23FFA500"/></svg>'>
+    </head>
+    
+<body>
+
+    <header>
+        <h1 class="menuElement"> Tetris The Game </h1>
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="50" viewBox="0 0 200 50">
+            <rect width="200" height="50" fill="black" />
+          
+            <rect x="10" y="10" width="20" height="20" fill="#FF0" />
+            <rect x="30" y="10" width="20" height="20" fill="#F00" />
+            <rect x="50" y="10" width="20" height="20" fill="#0F0" />
+            <rect x="70" y="10" width="20" height="20" fill="#0FF" />
+            <rect x="90" y="10" width="20" height="20" fill="#00F" />
+            <rect x="110" y="10" width="20" height="20" fill="#F0F" />
+            <rect x="130" y="10" width="20" height="20" fill="#FFA500" />
+          
+            <text x="10" y="45" font-family="Arial, sans-serif" font-size="12" fill="white" letter-spacing="2">
+                Tetris The Game
+            </text>
+          </svg>
+    </header>
+
+    <nav class="menuElement">
+        <div id="menuTitle" class="menuElement"> 
+            Main manu 
+        </div>
+
+        <button id = "startButton" class="menuButton menuElement">
+            Start!
+        </button>
+
+        <button id = "optionsButton" class="menuButton menuElement">
+            Options
+        </button>
+
+        <button id = "recordsButton" class="menuButton menuElement"> 
+            Player records
+        </button>
+    </nav>
+
+                
+    <main>
+        <div class="gameContainer hidden">
+            <canvas id="gameCanvas" width="300" height="600"></canvas>
+            <button id="exitButton" class="menuButton"> Exit to Menu </button>
+        </div>
+
+        <audio id="audio" class="hidden" autoplay loop>
+        <source src="tetris.mp3" type="audio/mp3">
+        </audio>
+
+        <div class = "nickNameInputContainer hidden">
+            <h2>Records</h2>
+            <input type="text" id="nickNameInput" placeholder="Nick name here">
+            <button id = "saveRecordButton" class="menuButton">Save</button>
+        </div>
+
+    </main>
+
+    <section id="optionsMenu" class="menuElement hidden">
+        <h2>Options</h2>
+        <div>
+            <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.2">
+        </div>
+
+        <div>
+            <label for="musicToggle">Music:</label>
+            <input type="checkbox" id="musicToggle" checked>
+        </div>
+        
+        <div>
+            <label for="customAudioInput">Custom Music:</label>
+            <input type="file" id="customAudioInput" accept="audio/mp3">
+        </div>
+
+        <button id="backToMenuButton" class="menuButton">Back to Menu</button>
+    </section>
+
+    <section id="recordsMenu" class="menuElement hidden">
+        <table id="recordsTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nickname</th>
+                    <th>Score</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    
+        <button id="backToMenuButtonRecords" class="menuButton">Back to Menu</button>
+    </section>
+
+    <footer>
+        <div class="menuElement" >&copy;All rights reserved.
+         Press "Start" to play. Use WASD and QE to control.
+        </div>
+    </footer>
+
+
+    <script src="app.js"></script>
+</body>
+</html>
