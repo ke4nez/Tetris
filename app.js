@@ -10,11 +10,20 @@ const colors = {
     cyan: "#4CFFF7",
     orange: "#FFA64C"
 }; 
+const colorScores = {
+    "#FF4C4C": 10,  // red
+    "#4C6EFF": 15,  // blue
+    "#4CFF4C": 12,  // green
+    "#FFE44C": 8,   // yellow
+    "#B14CFF": 20,  // purple
+    "#4CFFF7": 18,  // cyan
+    "#FFA64C": 14   // orange
+};
 let isMusicOn = true
 let volume = 0.25
 
 let currentNickName  = "default"
-let score = 0
+let score = 0;
 
 class GameBoard{
     constructor(){
@@ -25,8 +34,22 @@ class GameBoard{
     }
 
     createNewBlock() {
-        const colorValues = Object.values(colors);
-        const randomColor = colorValues[Math.floor(Math.random() * colorValues.length)];
+    const colorValues = Object.values(colors);
+    const randomColor = colorValues[Math.floor(Math.random() * colorValues.length)];
+
+    const chance = Math.random();
+
+    if (chance < 0.1) {
+        // Спавн бомбы (10% шанс)
+        const x = Math.floor(this.width / 2);
+        const y = 0;                   
+        const radius = 2;                   
+
+        const bomb = new Bomb(x, y, radius);
+        this.Blocks.push(bomb);
+        this.activeBlock = bomb;
+    } else {
+        // Обычный блок (80% шанс)
         const width = Math.floor(Math.random() * 6) + 1;
         const heigth = Math.floor(Math.random() * 3) + 1;
         const minElements = width;
@@ -37,6 +60,7 @@ class GameBoard{
         this.Blocks.push(block);
         this.activeBlock = block;
     }
+}
 
     deleteBlocks() {
       this.Blocks = [];
@@ -180,9 +204,41 @@ class GameBoard{
     }
 
     lockAtiveBlock(block){
-        block.lock
+        block.lock()
         this.activeBlock = null;
     }
+
+    deleteFullRows() {
+    for (let row = 0; row < gameBoardHeigth; row++) {
+        let counter = 0;
+        let scoreToAdd = 0;
+
+        for (let block of this.Blocks) {
+            for (let cell of block.Cells) {
+                if (cell.y === row) {
+                    counter++;
+                    scoreToAdd += cell.score;
+                }
+            }
+        }
+
+        if (counter === 10) {
+            for (let block of this.Blocks) {
+                block.Cells = block.Cells.filter(cell => cell.y !== row);
+            }
+
+            for (let block of this.Blocks) {
+                for (let cell of block.Cells) {
+                    if (cell.y < row) {
+                        cell.y += 1;
+                    }
+                }
+            }
+            score += scoreToAdd;
+        }
+    }
+    this.Blocks = this.Blocks.filter(block => block.Cells.length > 0);
+}
 }
 
 class Block{
@@ -281,11 +337,49 @@ class Block{
     }
 }
 
+class Bomb extends Block {
+    constructor(x, y, radius) {
+        super(1, 1, "#000000", 1);
+        
+        this.Cells[0].x = x;
+        this.Cells[0].y = y;
+
+        this.radius = radius;
+    }
+
+
+    explode() {
+        console.log("EXPLOAD!!!!!")
+        const centerX = this.Cells[0].x;
+        const centerY = this.Cells[0].y;
+        const radius = this.radius;
+
+        for (let block of gameBoard.Blocks) {
+            block.Cells = block.Cells.filter(cell => {
+                const distX = Math.abs(cell.x - centerX);
+                const distY = Math.abs(cell.y - centerY);
+                return !(distX <= radius && distY <= radius);
+            });
+        }
+
+        gameBoard.Blocks = gameBoard.Blocks.filter(block => block.Cells.length > 0);
+        gameBoard.activeBlock
+    }
+
+    lock() {
+        this.isLocked = true;
+        this.explode();
+        gameBoard.activeBlock = null;
+    }
+}
+
 class Cell{
-    constructor(x, y, color){
+      constructor(x, y, color) {
         this.x = x;
         this.y = y;
         this.color = color;
+         this.score = colorScores[color] || 0;
+        console.log(this.score);
     }
 }
 
@@ -382,8 +476,12 @@ function gameLoop(gameBoard) {
     } else {
         console.log("Locking block...");
         gameBoard.lockAtiveBlock(block);
+        gameBoard.deleteFullRows();
         gameBoard.createNewBlock();
 
+        if(!gameBoard.isValidPlayerMove('down')){
+            endGame();
+        }
     }
 }
 
